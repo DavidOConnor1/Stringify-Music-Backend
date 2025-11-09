@@ -45,4 +45,10 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
     assert_redirected_to users_url
   end
+
+  test"Should NOT accept incomplete records"do
+    post users_url, params:{user: {username: "", email: @user.email, password: @user.password}}
+     assert_not (200...299).include?(response.code.to_i)   # not ok
+  end
+
 end

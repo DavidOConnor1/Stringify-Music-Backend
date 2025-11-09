@@ -42,4 +42,21 @@ class UsersTest < ApplicationSystemTestCase
 
     assert_text "User was successfully destroyed"
   end
+
+  test"should NOT accept incomplete records" do
+    visits users_url
+    click_on"New user"
+
+    fill_in "Username", with:""
+    fill_in "Email", with:@user.email
+    fill_in "Password", with:@user.password
+
+    click_on "Create User"
+
+    assert_text "Username Cannot be Blank"
+    click_on "Back"
+  end
+    
+
+
 end
