@@ -20,6 +20,16 @@ class SigninController < ApplicationController
         end
         end
 
+        def destroy
+            session = JWTSession::Session.new(payload: payload)
+            session.flush_by_access_payload
+            render json:ok
+        end
+        
         private
+
+        def not_found
+            render json: { error: 'Cannot find email/password'}, status: not_found
+        end
 
 end
