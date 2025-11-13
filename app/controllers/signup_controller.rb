@@ -1,6 +1,4 @@
 class SignupController < ApplicationController
-  skip_before_action :verify_authenticity_token 
-  
   def create
     puts "=== SIGNUP PARAMS ==="
     puts params.inspect
@@ -11,7 +9,7 @@ class SignupController < ApplicationController
     if user.save
       puts "User created successfully: #{user.id}"
       payload = { user_id: user.id }
-      session = JWTSession::Session.new(payload: payload, refresh_by_access_allowed: true)
+      session = JWTSessions::Session.new(payload: payload, refresh_by_access_allowed: true)
       tokens = session.login
 
       response.set_cookie(JWTSessions.access_cookie,
@@ -29,6 +27,10 @@ class SignupController < ApplicationController
   private
 
   def user_params
-    params.permit(:username, :email, :password, :password_confirmation)
+    if params[:signup]
+      params.require(:signup).permit(:username, :email, :password, :password_confirmation)
+    else
+      params.permit(:username, :email, :password, :password_confirmation)
+    end
   end
 end
