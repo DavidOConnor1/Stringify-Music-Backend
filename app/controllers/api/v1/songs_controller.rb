@@ -18,17 +18,17 @@ module Api
 
       # POST /songs
       def create
-        puts "=== SONG CREATE PARAMS ==="
-        puts params.inspect
-        puts "==========================="
-        @song = current_user.songs.build(song_params)
+  puts "=== SONG CREATE PARAMS ==="
+  puts params.inspect
+  puts "==========================="
+  @song = current_user.songs.build(song_params)
 
-        if @song.save
-          render json: @song, status: :created, location: @song
-        else
-          render json: @song.errors, status: :unprocessable_entity
-        end
-      end
+  if @song.save
+    render json: @song, status: :created
+  else
+    render json: @song.errors, status: :unprocessable_entity
+  end
+end
 
       # PATCH/PUT /songs/1
       def update
