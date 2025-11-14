@@ -1,6 +1,5 @@
 module Api
   module V1
-
     class SongsController < ApplicationController
       before_action :authorize_access_request!
       before_action :set_song, only: %i[ show update destroy ]
@@ -19,12 +18,15 @@ module Api
 
       # POST /songs
       def create
+        puts "=== SONG CREATE PARAMS ==="
+        puts params.inspect
+        puts "==========================="
         @song = current_user.songs.build(song_params)
 
         if @song.save
           render json: @song, status: :created, location: @song
         else
-          render json: @song.errors, status: :unprocessable_content
+          render json: @song.errors, status: :unprocessable_entity
         end
       end
 
@@ -33,25 +35,32 @@ module Api
         if @song.update(song_params)
           render json: @song
         else
-          render json: @song.errors, status: :unprocessable_content
+          render json: @song.errors, status: :unprocessable_entity
         end
       end
 
       # DELETE /songs/1
       def destroy
         @song.destroy!
+        head :no_content
       end
 
       private
-        # Use callbacks to share common setup or constraints between actions.
-        def set_song
-          @song = current_user.songs.find(params.expect(:id))
-        end
 
-        # Only allow a list of trusted parameters through.
-        def song_params
-          params.require(:song).permit( :title, :year, :artist_id)
+      # Use callbacks to share common setup or constraints between actions.
+      def set_song
+        @song = current_user.songs.find(params[:id])
+      end
+
+      # Only allow a list of trusted parameters through.
+      def song_params
+        # Handle both nested (:song) and direct parameters
+        if params[:song]
+          params.require(:song).permit(:title, :year, :artist_id)
+        else
+          params.permit(:title, :year, :artist_id)
         end
+      end
     end
   end
 end

@@ -2,12 +2,15 @@ class SigninController < ApplicationController
   before_action :authorize_access_request!, only: [:destroy]
 
   def create
+    # Handle both nested and flat parameters
+    email = params[:email] || (params[:signin] && params[:signin][:email])
+    password = params[:password] || (params[:signin] && params[:signin][:password])
     
-    user = User.find_by(email: params[:email])
+    user = User.find_by(email: email)
 
-    if user && user.authenticate(params[:password])
+    if user && user.authenticate(password)
       payload = { user_id: user.id }
-      session = JWTSession::Session.new(payload: payload, refresh_by_access_allowed: true)
+      session = JWTSessions::Session.new(payload: payload, refresh_by_access_allowed: true)
       tokens = session.login
       
       response.set_cookie(JWTSessions.access_cookie,
@@ -22,14 +25,8 @@ class SigninController < ApplicationController
   end
 
   def destroy
-    session = JWTSession::Session.new(payload: payload)
+    session = JWTSessions::Session.new(payload: payload)
     session.flush_by_access_payload
     render json: :ok
-  end
-
-  private
-
-  def not_found
-    render json: { error: 'Cannot find email/password combination' }, status: :not_found
   end
 end
