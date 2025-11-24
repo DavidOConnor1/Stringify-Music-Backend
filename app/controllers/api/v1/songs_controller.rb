@@ -6,10 +6,12 @@ module Api
 
       # GET /songs
       def index
-        @songs = current_user.songs.all
-
-        render json: @songs
-      end
+  @songs = current_user.songs.includes(:artist, :user)
+  render json: @songs.as_json(include: {
+    artist: { only: [:id, :name] },
+    user: { only: [:id, :username] }
+  })
+end
 
       # GET /songs/1
       def show
@@ -45,11 +47,25 @@ end
         head :no_content
       end
       
-      #public display of songs
-      def public_index
-        @songs = Song.public_songs.includes(:artist, :user)
-        render json: @songs
-      end
+    def public_index
+  puts "=== PUBLIC SONGS REQUEST ==="
+  
+  # Check if we have the is_public column
+  if Song.column_names.include?('is_public')
+    @songs = Song.where(is_public: true).includes(:artist, :user)
+  else
+    # Fallback: show all songs if is_public column doesn't exist
+    @songs = Song.all.includes(:artist, :user)
+  end
+  
+  puts "Found #{@songs.count} public songs"
+  
+  # Render with artist and user associations included using as_json
+  render json: @songs.as_json(include: {
+    artist: { only: [:id, :name] },
+    user: { only: [:id, :username] }
+  })
+end
 
       private
 
