@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_11_09_213213) do
+ActiveRecord::Schema[8.0].define(version: 2025_11_24_175030) do
   create_table "artists", force: :cascade do |t|
     t.string "name"
     t.integer "user_id", null: false
@@ -26,6 +26,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_09_213213) do
     t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "is_public", default: true
     t.index ["artist_id"], name: "index_songs_on_artist_id"
     t.index ["user_id"], name: "index_songs_on_user_id"
   end
@@ -36,6 +37,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_09_213213) do
     t.string "password_digest", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "is_artist", default: false
   end
 
   add_foreign_key "artists", "users"
