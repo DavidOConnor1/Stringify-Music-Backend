@@ -6,6 +6,14 @@ module Api
 
            
            def upgrade_to_artist
+
+            artist_name = params[:artist_name]
+
+            if artist_name.blank?
+                render json: {error: "Artist Name is required"}, status: :unprocessable_entity
+                return
+            end
+
             if current_user.update(is_artist: true)
                 render json: {message: "You became an Artist!", user: current_user}
                 else
@@ -35,7 +43,7 @@ module Api
             end
 
             def user_params
-                params.require(:user).permit(:username, :email, :password, :password_confirmation)
+                params.require(:user).permit(:username, :email, :password, :password_confirmation, :artist_name)
             end
         end
     end

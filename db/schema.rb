@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_11_24_175030) do
+ActiveRecord::Schema[8.0].define(version: 2025_11_24_193659) do
   create_table "artists", force: :cascade do |t|
     t.string "name"
     t.integer "user_id", null: false
@@ -38,6 +38,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_24_175030) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "is_artist", default: false
+    t.string "artist_name"
   end
 
   add_foreign_key "artists", "users"
