@@ -4,8 +4,16 @@ module Api
             before_action :authorize_access_request!
             before_action :set_user, only: [:show, :update]
 
+           
+           def upgrade_to_artist
+            if current_user.update(is_artist: true)
+                render json: {message: "You became an Artist!", user: current_user}
+                else
+                    render json: {error:"Upgraded Failed"}, status: :unprocessable_entity
+                end
+            end
+           
             #GET 
-
             def show
                 render json: @user, except: [:password_digest]
             end

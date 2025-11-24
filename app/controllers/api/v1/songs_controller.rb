@@ -1,7 +1,7 @@
 module Api
   module V1
     class SongsController < ApplicationController
-      before_action :authorize_access_request!
+      before_action :authorize_access_request!, except: [:public_index]
       before_action :set_song, only: %i[ show update destroy ]
 
       # GET /songs
@@ -43,6 +43,12 @@ end
       def destroy
         @song.destroy!
         head :no_content
+      end
+      
+      #public display of songs
+      def public_index
+        @songs = Song.public_songs.includes(:artist, :user)
+        render json: @songs
       end
 
       private
