@@ -41,7 +41,7 @@ class SpotifyService
         response.success? ? response.parsed_response : nil
     end
 
-    #search for tracks
+    #search for songs
     def search_music(query, limit = 20)
         return [] unless @access_token
 

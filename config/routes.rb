@@ -3,6 +3,15 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :songs
       resources :artists
+
+      #Spotify routes
+      get 'spotify/authenticate', to: 'spotify#authenticate'
+      get 'spotify/callback' to: 'spotify#callback'
+      get 'spotify/search' to: 'spotify#search'
+      get 'spotify/featured' to: 'spotify#featured'
+      get 'spotify/new-releases' to: 'spotify#new_releases'
+      delete 'spotify/disconnect' to: 'spotify#disconnect'
+
       get 'user', to: 'users#show'
       patch 'user', to: 'users#update'
       put 'user', to: 'users#update' 

@@ -1,8 +1,5 @@
 Module Api 
     Module V1
-<<<<<<< HEAD
-    class SpotifyController 
-=======
     class SpotifyController < ApplicationController
         before_action :authorize_access_request!
 
@@ -82,4 +79,29 @@ Module Api
                 total: playlists.size
             }
         end
->>>>>>> ee4786d (created a search songs and a featured playlist)
+
+        #new releases
+        def new_releases
+            limit = params[:limit] || 20
+
+            service = SpotifyService.new(current_user.spotify_access_token)
+            releases = service.get_new_releases(limit)
+
+            render json: {
+                releases: releases
+                total: releases.size
+            }
+        end
+
+        def disconnect
+            current_user.update(
+                spotify_access_token: nil,
+                spotify_refresh_token: nil,
+                spotify_token_expires_at: nil
+            )
+
+            render json: {message: 'Spotify disconnected sucessfully'}
+        end
+    end
+end
+end
