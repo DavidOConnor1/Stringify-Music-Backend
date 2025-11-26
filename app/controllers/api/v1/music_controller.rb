@@ -4,18 +4,19 @@ module Api
     class MusicController < ApplicationController
       def search
         query = params[:query]
-        service = params[:service] || 'itunes' # or 'deezer'
-        
-        if service == 'deezer'
-          results = DeezerService.new.search_tracks(query)
-        else
-          results = ItunesService.new.search_tracks(query)
+        limit = params[:limit] || 20
+
+        if query.blank?
+          render json: { error: 'Query parameter is required' }, status: :bad_request
+          return
         end
+
+        results = ItunesService.new.search_tracks(query, limit)
 
         render json: {
           query: query,
-          service: service,
-          results: results
+          results: results,
+          total: results.size
         }
       end
     end

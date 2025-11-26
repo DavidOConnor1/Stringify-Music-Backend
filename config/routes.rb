@@ -4,7 +4,7 @@ Rails.application.routes.draw do
       resources :songs
       resources :artists
 
-      get '/api/v1/music/search', to: 'music#search'
+      get 'music/search', to: 'music#search'
 
       get 'user', to: 'users#show'
       patch 'user', to: 'users#update'
