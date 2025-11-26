@@ -4,15 +4,7 @@ Rails.application.routes.draw do
       resources :songs
       resources :artists
 
-      #Spotify routes
-    get 'spotify/authenticate', to: 'spotify#authenticate'
-    get 'spotify/callback', to: 'spotify#callback'
-    get 'spotify/search', to: 'spotify#search'
-    get 'spotify/featured', to: 'spotify#featured'
-    get 'spotify/new-releases', to: 'spotify#new_releases'
-    get 'spotify/recommendations', to: 'spotify#recommendations'
-    get 'spotify/profile', to: 'spotify#profile'
-    delete 'spotify/disconnect', to: 'spotify#disconnect'
+      get '/api/v1/music/search', to: 'music#search'
 
       get 'user', to: 'users#show'
       patch 'user', to: 'users#update'
