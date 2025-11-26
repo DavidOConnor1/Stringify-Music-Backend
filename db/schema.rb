@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_11_24_193659) do
+ActiveRecord::Schema[8.0].define(version: 2025_11_26_221416) do
   create_table "artists", force: :cascade do |t|
     t.string "name"
     t.integer "user_id", null: false
@@ -39,6 +39,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_24_193659) do
     t.datetime "updated_at", null: false
     t.boolean "is_artist", default: false
     t.string "artist_name"
+    t.string "spotify_access_token"
+    t.string "spotify_refresh_token"
+    t.datetime "spotify_token_expires_at"
   end
 
   add_foreign_key "artists", "users"
