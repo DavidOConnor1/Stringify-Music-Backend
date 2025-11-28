@@ -1,5 +1,6 @@
 require 'httparty'
-
+module Library
+  module Music 
 class ItunesService
   include HTTParty
   base_uri 'https://itunes.apple.com'
@@ -38,6 +39,22 @@ class ItunesService
     end
   end
 
+  def get_new_releases
+    search("2025", 10)
+  end
+
+  def get_artist_details(artist_id)
+    response = self.class.get("/lookup", {
+      query: {id: artist_id}
+    })
+
+    if response.success?
+      response.parsed_response
+    else 
+      {error : "Failed to fetch artist details"}
+    end 
+  end
+
   private
 
   def format_tracks(tracks)
@@ -62,4 +79,6 @@ class ItunesService
       }
     end.compact # Remove any nil entries
   end
+end
+end
 end
