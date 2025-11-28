@@ -5,6 +5,9 @@ Rails.application.routes.draw do
       resources :artists
 
       get 'music/search', to: 'music#search'
+      get 'music/featured_artists', to: "music#featured_artists"
+      get 'music/featured_songs', to: "music#featured_songs"
+      get 'music/new_releases', to: "music#new_releases"
 
       get 'user', to: 'users#show'
       patch 'user', to: 'users#update'

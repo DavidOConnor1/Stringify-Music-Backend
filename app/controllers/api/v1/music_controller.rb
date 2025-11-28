@@ -1,7 +1,16 @@
 module Api::V1
   class MusicController < ApplicationController
+    # Explicitly require the library files
+    require Rails.root.join('app/library/music/music_library')
+    require Rails.root.join('app/library/music/featured_artists')
+    require Rails.root.join('app/library/music/featured_songs')
+    require Rails.root.join('app/library/music/itunes_service')
+
+    before_action :initialize_library
+
     def search
       begin
+        puts "=== SEARCH REQUEST ==="
         query = params[:query]
         limit = params[:limit] || 20
         
@@ -9,52 +18,59 @@ module Api::V1
           return render json: { error: "Query parameter is required" }, status: :bad_request
         end
 
-        # iTunes API call
-        response = HTTParty.get("https://itunes.apple.com/search", {
-          query: {
-            term: query,
-            media: "music",
-            entity: "song",
-            limit: limit
-          }
-        })
-
-        if response.success?
-          data = JSON.parse(response.body)
-          itunes_results = data['results'] || []
-          
-          # Transform to match frontend expectations
-          songs = itunes_results.map do |itunes_song|
-            {
-              id: itunes_song['trackId'],
-              title: itunes_song['trackName'],
-              artist: itunes_song['artistName'],
-              album: itunes_song['collectionName'],
-              album_image: itunes_song['artworkUrl100'],  # Frontend expects album_image
-              duration_ms: itunes_song['trackTimeMillis'], # Frontend expects duration_ms
-              preview_url: itunes_song['previewUrl'],
-              external_url: itunes_song['trackViewUrl']   # Add external_url for "View" button
-            }
-          end
-
-          # Return in the format frontend expects
-          render json: {
-            results: songs  # Frontend looks for response.data.results
-          }
-        else
-          render json: {
-            error: "iTunes API request failed"
-          }, status: :unprocessable_entity
-        end
-
+        puts "Searching for: #{query}, limit: #{limit}"
+        results = @music_library.search_songs(query, limit)
+        puts "Search results: #{results.inspect}"
+        
+        render json: { results: results }
       rescue => e
-        puts "=== MUSIC SEARCH ERROR ==="
+        puts "=== SEARCH ERROR ==="
         puts e.message
         puts e.backtrace
-        
-        render json: {
-          error: "Internal server error: #{e.message}"
-        }, status: :internal_server_error
+        render json: { error: "Search failed: #{e.message}" }, status: :internal_server_error
+      end
+    end
+
+    def featured_artists
+      begin
+        puts "=== FEATURED ARTISTS REQUEST ==="
+        artists = @music_library.get_featured_artists
+        puts "Artists returned: #{artists.inspect}"
+        render json: { artists: artists }
+      rescue => e
+        puts "=== FEATURED ARTISTS ERROR ==="
+        puts e.message
+        puts e.backtrace
+        render json: { error: "Failed to load featured artists: #{e.message}" }, status: :internal_server_error
+      end
+    end
+
+    def featured_songs
+      begin
+        puts "=== FEATURED SONGS REQUEST ==="
+        songs = @music_library.get_featured_songs
+        puts "Songs returned: #{songs.inspect}"
+        render json: { songs: songs }
+      rescue => e
+        puts "=== FEATURED SONGS ERROR ==="
+        puts e.message
+        puts e.backtrace
+        render json: { error: "Failed to load featured songs: #{e.message}" }, status: :internal_server_error
+      end
+    end
+
+    private
+
+    def initialize_library
+      begin
+        puts "=== INITIALIZING MUSIC LIBRARY ==="
+        @music_library = Library::Music::MusicLibrary.new
+        puts "Library initialized successfully"
+      rescue => e
+        puts "=== LIBRARY INITIALIZATION ERROR ==="
+        puts e.message
+        puts e.backtrace
+        raise e
       end
     end
   end
