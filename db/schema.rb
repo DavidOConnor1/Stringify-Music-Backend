@@ -10,13 +10,34 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_11_26_221416) do
+ActiveRecord::Schema[8.0].define(version: 2025_11_29_191934) do
   create_table "artists", force: :cascade do |t|
     t.string "name"
     t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_artists_on_user_id"
+  end
+
+  create_table "playlist_songs", force: :cascade do |t|
+    t.integer "playlist_id", null: false
+    t.integer "song_id", null: false
+    t.integer "position"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["playlist_id"], name: "index_playlist_songs_on_playlist_id"
+    t.index ["song_id"], name: "index_playlist_songs_on_song_id"
+  end
+
+  create_table "playlists", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.integer "user_id", null: false
+    t.boolean "is_public"
+    t.integer "songs_count"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_playlists_on_user_id"
   end
 
   create_table "songs", force: :cascade do |t|
@@ -45,6 +66,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_26_221416) do
   end
 
   add_foreign_key "artists", "users"
+  add_foreign_key "playlist_songs", "playlists"
+  add_foreign_key "playlist_songs", "songs"
+  add_foreign_key "playlists", "users"
   add_foreign_key "songs", "artists"
   add_foreign_key "songs", "users"
 end
