@@ -108,4 +108,27 @@ module Api::V1
                     status: :forbidden
                 end
 
+                playlist_song.destroy
+                render json: {
+                    message: "song removed from playlist",
+                    playlist: @playlist.reload,
+                    songs_count: @playlist.songs_count
+                }
+            end
+
+            private
+
+            def set_playlist
+                @playlist = Playlist.find_by(id: params[:id])
+                unless @playlist
+                    render json: {error: "Playlist not found"}, status: :not_found
+                end
+            end
+
+            def playlist_params
+                params.require(:playlist).permit(:name, :description, :is_public)
+            end
+        end
+    end
+
             
