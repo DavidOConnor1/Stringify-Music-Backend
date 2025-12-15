@@ -84,6 +84,28 @@ module Api::V1
                 #checks if song is already in playlist
                 if @playlist.songs.exists?(song.id)
                     return render json: {error: "song already in playlist"},
-                    
+                    status: :unprocessable_entity
+                end
+
+                playlist_song = @playlist.playlist_song.build(song: song)
+
+                if playlist_song.save
+                    render json: {
+                        message: "song added to playlist",
+                        playlist: @playlist.reload,
+                        songs_count: @playlist.songs_count
+                    }
+                else
+                    render json: {error: playlist_song.errors.full_messages},
+                    status: :unprocessable_entity
+                end
+            end
+
+            def remove_song
+                #checks ownership
+                unless @playlist.user_id == current_user.id
+                    return render json: {error: "Cannot modify this playlist"},
+                    status: :forbidden
+                end
 
             
