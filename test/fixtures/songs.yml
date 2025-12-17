@@ -1,13 +1,57 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+# Songs fixtures
+hey_jude:
+  title: Hey Jude
+  year: 1968
+  artist: beatles
+  user: john_musician
+  is_public: true
 
-one:
-  title: MyString
-  year: MyString
-  artist: one
-  user: one
+bohemian_rhapsody:
+  title: Bohemian Rhapsody
+  year: 1975
+  artist: queen  # You might need to add queen to artists
+  user: alice
+  is_public: true
 
-two:
-  title: MyString
-  year: MyString
-  artist: two
-  user: two
+private_song:
+  title: My Secret Song
+  year: 2024
+  artist: taylor_swift
+  user: charlie_brown
+  is_public: false
+
+recent_hit:
+  title: Flowers
+  year: 2023
+  artist: miley_cyrus  # Add to artists if needed
+  user: bob
+  is_public: true
+
+classic_rock:
+  title: Stairway to Heaven
+  year: 1971
+  artist: led_zeppelin  # Add to artists if needed
+  user: music_lover
+  is_public: true
+
+# Edge cases
+no_year_song:
+  title: Untitled
+  year: 
+  artist: beatles
+  user: john_musician
+  is_public: true
+
+long_title_song:
+  title: "The Rise and Fall of Bossanova: A 13 Part Saga by P.M. Dawn"
+  year: 1990
+  artist: long_name_artist
+  user: alice
+  is_public: true
+
+duplicate_title:
+  title: Love Song
+  year: 2020
+  artist: different_artist
+  user: bob
+  is_public: true

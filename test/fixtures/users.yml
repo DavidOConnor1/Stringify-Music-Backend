@@ -1,11 +1,32 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+# Comprehensive version with associations
+alice:
+  username: alice_smith
+  email: alice@example.com
+  password_digest: <%= BCrypt::Password.create("password123") %>
 
-one:
-  username: MyString
-  email: MyString
-  password_digest: MyString
+bob:
+  username: bob_jones
+  email: bob@example.com
+  password_digest: <%= BCrypt::Password.create("securepass456") %>
 
-two:
-  username: MyString
-  email: MyString
-  password_digest: MyString
+# Artist users
+john_musician:
+  username: john_beatles
+  email: john@beatles.com
+  password_digest: <%= BCrypt::Password.create("letitbe123") %>
+
+paul_musician:
+  username: paul_mccartney
+  email: paul@beatles.com
+  password_digest: <%= BCrypt::Password.create("yesterday456") %>
+
+# For testing uniqueness validations
+duplicate_email_user:
+  username: unique_username
+  email: alice@example.com  # Same as alice
+  password_digest: <%= BCrypt::Password.create("password123") %>
+
+duplicate_username_user:
+  username: alice_smith  # Same as alice
+  email: different@example.com
+  password_digest: <%= BCrypt::Password.create("password123") %>

@@ -9,7 +9,7 @@ module Library
             name: "Billie Eilish",
             genre: "Alternative",
             description: "Grammy-winning artist known for unique vocal style and atmospheric production",
-            artwork: "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/92/9f/69/929f69f1-9977-3a44-d674-11f70c852d1b/24UMGIM36186.rgb.jpg/300x300bb.jpg",
+            artwork: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Billie_Eilish_at_Pukkelpop_Festival_-_18_AUGUST_2019_%2801%29_%28cropped%29.jpg/1019px-Billie_Eilish_at_Pukkelpop_Festival_-_18_AUGUST_2019_%2801%29_%28cropped%29.jpg",
             popularity: 95
           },
           {
@@ -17,7 +17,7 @@ module Library
             name: "Beyoncé",
             genre: "R&B/Pop",
             description: "Iconic performer with powerful vocals and groundbreaking visual albums",
-            artwork: "https://is1-ssl.mzstatic.com/image/thumb/Music112/v4/3a/84/8c/3a848c5c-6e33-4c69-7b5b-7e49f26c7c36/196589486069.jpg/300x300bb.jpg",
+            artwork: "https://www.instyle.com/thmb/23RXwolcSX79DnZVXlmXUSHFCXU=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/022124-beyonce-hair-lead-1ec978ae6fea422eabd3dd888b3c0e2a.jpg",
             popularity: 98
           },
           {
@@ -25,7 +25,7 @@ module Library
             name: "Taylor Swift",
             genre: "Pop/Country",
             description: "Storytelling songwriter who reinvented herself across multiple genres",
-            artwork: "https://is1-ssl.mzstatic.com/image/thumb/Music112/v4/9c/91/83/9c918303-e0a4-30d0-6e51-9993a635b4e7/196589486069.jpg/300x300bb.jpg",
+            artwork: "https://resizing.flixster.com/4HgCb0ytu44FoxHmJRpE06HtexY=/218x280/v2/https://resizing.flixster.com/-XZAfHZM39UwaGJIFWKAE8fS0ak=/v3/t/assets/GNLZZGG002C8FJK.jpg",
             popularity: 99
           },
           {
@@ -33,7 +33,7 @@ module Library
             name: "Ed Sheeran",
             genre: "Pop/Folk",
             description: "Singer-songwriter known for acoustic guitar and heartfelt lyrics",
-            artwork: "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/83/71/0c/83710c28-78e2-7e3f-0f32-43c79ff74b36/190296074307.jpg/300x300bb.jpg",
+            artwork: "https://cdn.britannica.com/17/249617-050-4575AB4C/Ed-Sheeran-performs-Rockefeller-Plaza-Today-Show-New-York-2023.jpg",
             popularity: 92
           },
           {
@@ -41,7 +41,7 @@ module Library
             name: "Coldplay",
             genre: "Alternative Rock",
             description: "British band known for anthemic songs and atmospheric soundscapes",
-            artwork: "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/9f/7f/6f/9f7f6f6f-6e6e-6f6f-6e6e-6f6f6f6f6f6f/190296074307.jpg/300x300bb.jpg",
+            artwork: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/ColdplayWembley120925_%28cropped%29.jpg/1200px-ColdplayWembley120925_%28cropped%29.jpg",
             popularity: 90
           },
           {

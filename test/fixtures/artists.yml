@@ -1,9 +1,52 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  name: MyString
+# Option 1: Real artists with descriptive names
+beatles:
+  name: The Beatles
+  user: john_musician  # Assuming you have this user fixture
+
+radiohead:
+  name: Radiohead
+  user: alice
+
+beyonce:
+  name: Beyoncé
+  user: bob
+
+taylor_swift:
+  name: Taylor Swift
+  user: charlie_brown
+
+kendrick:
+  name: Kendrick Lamar
+  user: music_lover
+
+# Option 2: Simple but better
+artist_one:
+  name: Led Zeppelin
   user: one
 
-two:
-  name: MyString
+artist_two:
+  name: Pink Floyd
   user: two
+
+# Option 3: Comprehensive with edge cases
+rock_band:
+  name: "AC/DC"
+  user: alice
+
+artist_with_special_chars:
+  name: "Beyoncé & Jay-Z"
+  user: bob
+
+long_name_artist:
+  name: "The Dave Matthews Band featuring Tim Reynolds"
+  user: charlie_brown
+
+empty_name_artist:
+  name: ""
+  user: diana_admin
+
+duplicate_name_different_user:
+  name: The Beatles  # Same name as beatles, different user
+  user: paul_musician
