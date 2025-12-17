@@ -1,6 +1,7 @@
 module Library
   module Music
     class FeaturedSongs
+     
       def fetch_songs
         #Predefined Song list
         [

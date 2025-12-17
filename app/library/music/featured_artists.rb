@@ -1,7 +1,8 @@
 module Library
     module Music
         class FeaturedArtists
-            def fetch_artists
+            
+          def fetch_artists
                 #A predefined list of artists
                 [
                      {
