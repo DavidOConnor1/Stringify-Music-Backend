@@ -30,3 +30,11 @@ module StringifyMusicBackend
     config.api_only = true
   end
 end
+module StringifyMusic
+  class Application < Rails::Application
+    # ... existing config ...
+    
+    # Add lib to autoload_once_paths to avoid conflicts
+    config.autoload_once_paths << Rails.root.join('lib')
+  end
+end
