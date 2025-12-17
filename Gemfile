@@ -17,7 +17,7 @@ gem "puma", ">= 5.0"
 
  gem "redis", "~> 5.4.1"
 
- gem 'jwt_sessions', '~> 2.6'
+ gem 'jwt_sessions', '~> 3.2'
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ windows jruby ]
