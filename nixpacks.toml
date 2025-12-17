@@ -1,5 +1,8 @@
 [phases.setup]
-cmds = ["apt-get update && apt-get install -y libpq-dev nodejs"]
+cmds = [
+  "apt-get update",
+  "apt-get install -y libpq-dev nodejs curl git"
+]
 
 [phases.install]
 cmds = ["bundle install"]
