@@ -22,10 +22,12 @@ Rails.application.configure do
   config.active_storage.service = :local
 
   # Assume all access to the app is happening through a SSL-terminating reverse proxy.
-  config.assume_ssl = true
+  # IMPORTANT: Disable for Railway/Render (they handle SSL at load balancer)
+  config.assume_ssl = false  # Changed from true
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-  config.force_ssl = true
+  # IMPORTANT: Disable for Railway/Render (they handle SSL)
+  config.force_ssl = false  # Changed from true
 
   # Skip http-to-https redirect for the default health check endpoint.
   # config.ssl_options = { redirect: { exclude: ->(request) { request.path == "/up" } } }
@@ -43,32 +45,21 @@ Rails.application.configure do
   # Don't log any deprecations.
   config.active_support.report_deprecations = false
 
-  # Replace the default in-process memory cache store with a durable alternative.
-  config.cache_store = :solid_cache_store
+  # IMPORTANT: Simplify cache store for Railway (solid_cache requires Redis)
+  # Use memory store instead for simplicity
+  config.cache_store = :memory_store  # Changed from :solid_cache_store
 
-  # Replace the default in-process and non-durable queuing backend for Active Job.
-  config.active_job.queue_adapter = :solid_queue
-  config.solid_queue.connects_to = { database: { writing: :queue } }
+  # IMPORTANT: Simplify job queue for Railway (solid_queue requires database setup)
+  config.active_job.queue_adapter = :inline  # Changed from :solid_queue
+  # Remove or comment out: config.solid_queue.connects_to = { database: { writing: :queue } }
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   # config.action_mailer.raise_delivery_errors = false
 
   # Set host to be used by links generated in mailer templates.
-  config.action_mailer.default_url_options = { host: "example.com" }
-
-  # Specify outgoing SMTP server. Remember to add smtp/* credentials via rails credentials:edit.
-  # config.action_mailer.smtp_settings = {
-  #   user_name: Rails.application.credentials.dig(:smtp, :user_name),
-  #   password: Rails.application.credentials.dig(:smtp, :password),
-  #   address: "smtp.example.com",
-  #   port: 587,
-  #   authentication: :plain
-  # }
-
-  # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
-  # the I18n.default_locale when a translation cannot be found).
-  config.i18n.fallbacks = true
+  # IMPORTANT: Update with your actual domain
+  config.action_mailer.default_url_options = { host: ENV['APP_DOMAIN'] || 'localhost:3000' }
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
@@ -77,15 +68,27 @@ Rails.application.configure do
   config.active_record.attributes_for_inspect = [ :id ]
 
   # Enable DNS rebinding protection and other `Host` header attacks.
+  # IMPORTANT: Allow all hosts for Railway/Render
+  config.hosts.clear  # Allow all hosts
+  
+  # Or be more specific:
   # config.hosts = [
-  #   "example.com",     # Allow requests from example.com
-  #   /.*\.example\.com/ # Allow requests from subdomains like `www.example.com`
+  #   ENV['RAILWAY_STATIC_URL']&.sub('https://', '')&.sub('http://', ''),  # Railway
+  #   ENV['RENDER_EXTERNAL_HOSTNAME'],  # Render
+  #   "localhost"  # Local development
   # ]
-  #
-  # Skip DNS rebinding protection for the default health check endpoint.
-  # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
 
-  #Prod setup
-  config.public_file_server.enabled = true
+  # IMPORTANT: Enable serving static files
+  config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present? || ENV['RENDER'].present?
 
+  # IMPORTANT: CORS configuration for your Vue frontend
+  config.middleware.insert_before 0, Rack::Cors do
+    allow do
+      origins ENV['FRONTEND_URL'] || 'http://localhost:5173'  # Your Vue dev server
+      resource '*',
+        headers: :any,
+        methods: [:get, :post, :put, :patch, :delete, :options, :head],
+        credentials: true
+    end
+  end
 end
