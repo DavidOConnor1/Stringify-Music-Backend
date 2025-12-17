@@ -16,10 +16,19 @@ module StringifyMusicBackend
     # Common ones are `templates`, `generators`, or `middleware`, for example.
     config.autoload_lib(ignore: %w[assets tasks])
 
+    # IMPORTANT: Properly configure autoload for app/library
+    # Remove any conflicting autoload_paths lines you added
     config.autoload_paths << Rails.root.join('app/library')
-    config.autoload_paths << Rails.root.join('app/library/music')
-
     
+    # Or use this to be more specific:
+    # config.autoload_paths += Dir[Rails.root.join('app/library/**/')]
+    
+    # Also add to eager_load_paths for production
+    config.eager_load_paths << Rails.root.join('app/library')
+    
+    # If you still have issues, disable autoloading for library temporarily
+    # config.autoload_once_paths << Rails.root.join('app/library')
+
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files

@@ -58,32 +58,9 @@ module Api::V1
 
     private
 
-     def initialize_library
-      begin
-        puts "=== INITIALIZING MUSIC LIBRARY ==="
-        
-        # Try to use Library::Music::MusicLibrary if it exists
-        # Otherwise use top-level MusicLibrary
-        if defined?(Library::Music::MusicLibrary)
-          @music_library = Library::Music::MusicLibrary.new
-        elsif defined?(MusicLibrary)
-          @music_library = MusicLibrary.new
-        else
-          # Fallback stub for tests
-          @music_library = Object.new
-          def @music_library.search_songs(*); []; end
-          def @music_library.get_featured_artists; []; end
-          def @music_library.get_featured_songs; []; end
-          def @music_library.get_new_releases; []; end
-        end
-        
-        puts "Library initialized successfully"
-      rescue => e
-        puts "=== LIBRARY INITIALIZATION ERROR ==="
-        puts e.message
-        puts e.backtrace
-        raise e
-      end
+      def initialize_library
+      # Use Library::Music::MusicLibrary
+      @music_library = Library::Music::MusicLibrary.new
     end
   end
 end
