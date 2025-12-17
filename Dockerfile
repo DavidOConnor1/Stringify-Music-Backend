@@ -1,18 +1,8 @@
-FROM ruby:3.4.7-alpine
+FROM ruby:3.4.7
 
-RUN apk add --no-cache \
-    build-base \
-    postgresql-dev \
-    tzdata \
-    nodejs \
-    yarn \
-    linux-headers \
-    gcompat \
-    libxml2-dev \
-    libxslt-dev \
-    openssl-dev \
-    zlib-dev \
-    gmp-dev
+RUN apt-get update -qq && \
+    apt-get install -y build-essential libpq-dev nodejs && \
+    rm -rf /var/lib/apt/lists/*
 
 ENV RAILS_ENV=production \
     BUNDLE_DEPLOYMENT=1 \
@@ -21,19 +11,11 @@ ENV RAILS_ENV=production \
 
 WORKDIR /app
 
-# Copy Gemfiles first for caching
 COPY Gemfile Gemfile.lock ./
 
-# Install gems with specific psych version fix
-RUN bundle config build.psych --with-opt-dir=/usr && \
-    bundle install --jobs=2 --retry=3
+RUN bundle install --jobs=2 --retry=3
 
 COPY . .
-
-RUN adduser -D -u 1000 app && \
-    chown -R app:app /app
-
-USER app
 
 EXPOSE 3000
 

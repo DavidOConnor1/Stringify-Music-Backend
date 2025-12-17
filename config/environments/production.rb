@@ -19,3 +19,4 @@ Rails.application.configure do
   config.active_record.attributes_for_inspect = [ :id ]
   config.hosts.clear
 end
+config.eager_load = false
