@@ -1,14 +1,24 @@
+[providers.railway]
+deploy = true
+
 [phases.setup]
 cmds = [
   "apt-get update",
-  "apt-get install -y libpq-dev nodejs curl git"
+  "apt-get install -y libpq-dev nodejs curl git libyaml-dev"
 ]
 
 [phases.install]
 cmds = ["bundle install"]
 
 [phases.build]
-cmds = ["bundle exec rails assets:precompile"]
+cmds = [
+  "bundle exec rails assets:precompile"
+]
 
 [start]
 cmd = "bundle exec rails server -b 0.0.0.0 -p $PORT"
+
+[environment]
+RAILS_ENV = "production"
+RACK_ENV = "production"
+NODE_ENV = "production"
