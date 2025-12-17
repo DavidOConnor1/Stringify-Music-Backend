@@ -38,7 +38,7 @@ module Api
       # DELETE /artists/1
       def destroy
         @artist.destroy!
-        head :no_content # Add proper response
+        head :no_content 
       end
 
       private
