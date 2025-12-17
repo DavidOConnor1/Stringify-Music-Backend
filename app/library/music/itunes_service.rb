@@ -58,7 +58,7 @@ module Library
         if response.success?
           response.parsed_response
         else 
-          { error: "Failed to fetch artist details" } # ← FIXED THIS LINE
+          { error: "Failed to fetch artist details" } 
         end 
       end
 
