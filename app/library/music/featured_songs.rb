@@ -1,4 +1,4 @@
-module Library
+
   module Music
     class FeaturedSongs
      
@@ -69,4 +69,3 @@ module Library
       end
     end
   end
-end

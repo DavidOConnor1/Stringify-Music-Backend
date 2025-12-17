@@ -1,7 +1,6 @@
-module Library
+
   module Music
     class MusicLibrary
-     
       def initialize
         @featured_artists_service = FeaturedArtists.new
         @featured_songs_service = FeaturedSongs.new
@@ -25,4 +24,3 @@ module Library
       end
     end
   end
-end

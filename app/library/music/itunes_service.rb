@@ -1,4 +1,6 @@
-module Library
+require 'httparty'
+
+
   module Music
     class ItunesService
       include HTTParty
@@ -6,7 +8,6 @@ module Library
       
       DEFAULT_TIMEOUT = 10
 
-      
       def search_tracks(query, limit = 20)
         begin
           response = self.class.get('/search', {
@@ -22,7 +23,6 @@ module Library
           log_api_response(response)
           
           if response.success?
-            # Clean the response body before parsing
             cleaned_body = response.body.strip
             data = JSON.parse(cleaned_body)
             
@@ -58,7 +58,7 @@ module Library
         if response.success?
           response.parsed_response
         else 
-          { error: "Failed to fetch artist details" } # ← FIXED THIS LINE
+          { error: "Failed to fetch artist details" }
         end 
       end
 
@@ -103,4 +103,3 @@ module Library
       end
     end
   end
-end

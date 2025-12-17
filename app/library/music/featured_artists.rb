@@ -1,7 +1,6 @@
-module Library
+
     module Music
-        class FeaturedArtists
-            
+        class FeaturedArtists 
           def fetch_artists
                 #A predefined list of artists
                 [
@@ -57,8 +56,8 @@ module Library
             end
 
             def fetch_artists_details(artist_id)
-                @itunes_service.get_artist_details(artist_id)
+                intunes_service = ItunesService.new
+                intunes_service.get_artists_details(artist_id)
             end
         end
     end
-end
